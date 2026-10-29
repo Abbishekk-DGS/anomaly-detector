@@ -1,0 +1,42 @@
+[project]
+name = "anomaly-detector"
+version = "0.1.0"
+description = "Time-series anomaly detection with a benchmark: robust z-score, Isolation Forest and an LSTM autoencoder, ensembled, scored with point-adjusted F1 on labelled anomalies."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Abbishekk DGS" }]
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26", "pandas>=2.2", "scikit-learn>=1.4", "torch>=2.3", "tabulate>=0.9"]
+
+[project.urls]
+Homepage = "https://abbishekkdgs.tech"
+Repository = "https://github.com/Abbishekk-DGS/anomaly-detector"
+
+[project.optional-dependencies]
+ui = ["streamlit>=1.50", "plotly>=5.20"]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+anomaly-detector = "anomaly_detector.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/anomaly_detector"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
