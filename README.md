@@ -7,6 +7,38 @@
 <!-- author-banner -->
 > **Project 08 of 20** in my AI build series, designed and built by **[Abbishekk DGS](https://abbishekkdgs.tech)**. [See all projects →](https://github.com/Abbishekk-DGS)
 
+<!-- overview:start -->
+## Overview
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/overview-dark.svg">
+  <img alt="anomaly-detector overview: how it works and its output. Key numbers: 35 / 36 events caught; 0.825 point-adjusted F1; 0.480 raw F1; 56 false alarms, over 3 series. Stack: Python · PyTorch · scikit-learn · pandas · Plotly · Streamlit." src="docs/overview-light.svg" width="100%">
+</picture>
+
+## Interface
+
+You can use it from the terminal or from an interactive dashboard in the browser.
+
+### Terminal
+
+| Command | What it does | Options (default) |
+|---|---|---|
+| `anomaly-detector bench` | Runs the labelled benchmark | `--seeds` (3) |
+| `anomaly-detector detect <csv>` | Scores your own data | `--column` (value), `--train-rows` (first 30%), `--period` (0), `--out` (`anomalies.csv`) |
+
+`--false-alarm-rate` (default 0.002) goes before the command.
+
+### Dashboard
+
+Install it with `uv sync --extra ui`, then start it with `uv run streamlit run src/anomaly_detector/app.py`.
+
+| Area | Controls and views |
+|---|---|
+| Sidebar | Synthetic or uploaded data, seed or CSV settings, leading fraction known to be normal (0.1 to 0.6) |
+| Chart | The series with flagged points in red and true anomalies as orange bands, a lower panel with all three detector scores plus the ensemble and its threshold, and a dotted line at the end of the reference data |
+| Scores, on labelled data | Point-adjusted F1, events detected, false-alarm episodes, raw F1 |
+<!-- overview:end -->
+
 ## Benchmark
 
 5,000-point series (5-minute resolution: daily + weekly seasonality, trend and noise) with 12 injected anomalies per series, 6 kinds: **spike, level shift, noise burst, drift, stuck sensor (flatline), seasonal break**. Mean over 3 seeds, scored on the unseen 70%. Thresholds are calibrated on held-out normal data; **no labels are used to tune them**.
